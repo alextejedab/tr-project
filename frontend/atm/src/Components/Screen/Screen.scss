@@ -1,0 +1,40 @@
+.screen{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+
+    .container-1{
+        width: 100%;
+        height: 40%;
+    }
+ 
+    .container-3{
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+    }
+
+    
+    .left{
+        p{
+            text-align: end;
+        }
+    }
+
+    .right{
+        p{
+            text-align: start;
+        }
+    }
+
+    .s-button{
+
+
+        p{
+            font-size: 9px;
+        } 
+
+        width: 50%;
+        height: 25%;
+    }
+}
