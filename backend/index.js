@@ -1,33 +1,30 @@
 const express = require('express')
-const data = require("./data.json")
 const app = express()
-const fs = require('fs')
-const port = 3000
+const port = 3001
+const cors = require('cors')
 
-app.get('/', (req, res) => {
-    res.status(200).send(JSON.parse(fs.readFileSync("data.json", 'utf8', (err) => {
-        if(err) throw err
-    })))
+let data = [{"pin":"1324","name":"Mimir", "bank": "visa", "balance":500},{"pin":"1234","name":"Gow", "bank": "mastercard","balance":1200}]
+
+app.use(cors({
+    origin: "http://localhost:3000"
+}))
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
+app.get('/user', (req, res) => {
+    user = data.find((user) => user.pin == req.query.pin)
+    res.status(200).send(user)
 })
 
-app.post('/', (req, res) => {
-    data.push({
-        "pin": "1324",
-        "name": "mimir gow"
-    })
-    fs.writeFile("data.json", JSON.stringify(data
-    ), (err) => {
-        if(err) throw err
-    })
-    res.status(201).send('creating')
-})
+app.get('/balance', (req, res) => {
+    userIndex = data.findIndex((user) => user.pin == req.query.pin)
 
-app.put('/:id', (req, res) => {
-    res.sendStatus(204)
-})
-
-app.delete('/:id', (req, res) => {
-    res.sendStatus(204)
+    if(userIndex !== null){
+        data[userIndex].balance += parseFloat(req.query.qty)
+    }
+    user = data.find((user) => user.pin == req.query.pin)
+    res.status(200).send(user)
 })
 
 app.listen(port, () => {
